@@ -10,9 +10,7 @@ count = 1
 
 while guessing:
     try: 
-        guess = int(raw_input("What is your guess? "))
-#        while not (0<guess<100):
-#            guess = int(raw_input("Your guess is out of range!  Between 1 and 100!\n Your guess? "))
+        guess = float(raw_input("What is your guess? "))      
         if guess < 1 or guess > 100:
             print "Your guess is out of the range 1-100, try again."
         elif guess > number:
