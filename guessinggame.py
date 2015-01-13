@@ -3,17 +3,19 @@ import random
 name = raw_input("Howdy what's your name?  ")
 print "%s, I'm thinking of a number between 1 and 100. Try to guess my number." % name
 number = random.randrange(1,101)
-print "answer:", number
+print "answer:", number # shows answer for testing
 
 guessing = True
 count = 1
 
 while guessing:
-    # while True:
     try: 
         guess = int(raw_input("What is your guess? "))
-        # break
-        if guess > number:
+#        while not (0<guess<100):
+#            guess = int(raw_input("Your guess is out of range!  Between 1 and 100!\n Your guess? "))
+        if guess < 1 or guess > 100:
+            print "Your guess is out of the range 1-100, try again."
+        elif guess > number:
             print "Your guess is too high, try again."
         elif guess < number:
             print "Your guess is too low, try again."
