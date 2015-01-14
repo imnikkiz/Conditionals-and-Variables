@@ -1,6 +1,9 @@
 import random
 
-def guessCompare(num, ans):
+def isCorrect(num, ans):
+    '''compares guess (num) to correct answer (ans); 
+    returning True continues guessing loop'''
+
     if num < 1 or num > 100:
         print "Your guess is out of the range 1-100, try again."
         return True
@@ -13,23 +16,41 @@ def guessCompare(num, ans):
     else:
         return False
 
-def guessNumber(ans, name):
-        guessing = True
-        count = 0
-        while guessing:
-            while True:
-                try: 
-                    guess = float(raw_input("What is your guess? ")) 
-                    break
-                except ValueError:
-                    print "Oops! That wasn't a number! Try again."
-                    count +=1
-            guessing = guessCompare(guess, ans)  #True or False
+
+def isNumber(count): 
+    '''confirms guess (raw_input) is a valid number (converts to float); 
+    returns updated and guess once a valid float''' 
+
+    while True:
+        try: 
+            guess = float(raw_input("What is your guess? ")) 
+            break
+        except ValueError:
+            print "Oops! That wasn't a number! Try again."
             count +=1
-        print "Well done, %s!  You found my number in %d tries!" % (name, count)
-        return count
+    return count, guess     
+
+
+def countGuesses(ans, name):
+    '''counts guesses; calls isNumber to generate guess, then passes guess to isCorrect;
+    returns count'''
+
+    guessing = True
+    count = 0
+    while guessing:
+        ck_guess = isNumber(count)
+        count = ck_guess[0]
+        guess = ck_guess[1]           
+        guessing = isCorrect(guess, ans)  #True or False
+        count +=1
+    print "Well done, %s!  You found my number in %d tries!" % (name, count)
+    return count
+
 
 def main():
+    '''greets player; generates random number; 
+    tracks high score; continues play loop until player responds no'''
+
     your_name = raw_input("Howdy what's your name?  ")
     highScore = 1000
     playing = True
@@ -38,7 +59,7 @@ def main():
         number = random.randrange(1,101)
         print "answer:", number # shows answer for testing
  
-        your_score = guessNumber(number, your_name)
+        your_score = countGuesses(number, your_name)
         highScore = min(highScore,your_score)
         print "Your score is: ",your_score
         print "Best score is: ",highScore
