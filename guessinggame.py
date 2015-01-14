@@ -3,6 +3,7 @@ import random
 name = raw_input("Howdy what's your name?  ")
 
 playing = True
+highScore = 1000
 
 while playing:
 
@@ -28,8 +29,11 @@ while playing:
             
         except ValueError:
             print "Oops! That wasn't a number! Try again."
-    
         count +=1
+
+    highScore = min(highScore,count)
+    print "Your score is: ",count
+    print "Best score is: ",highScore
 
     answer = raw_input("Would you like to play again?  ")
     if answer[0].upper() == "N":
