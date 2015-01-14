@@ -17,9 +17,9 @@ def isCorrect(num, ans):
         return False
 
 
-def isNumber(count): 
+def generateGuess(count): 
     '''confirms guess (raw_input) is a valid number (converts to float); 
-    returns updated and guess once a valid float''' 
+    returns updated count and guess once a valid float''' 
 
     while True:
         try: 
@@ -32,13 +32,13 @@ def isNumber(count):
 
 
 def countGuesses(ans, name):
-    '''counts guesses; calls isNumber to generate guess, then passes guess to isCorrect;
+    '''begins counting guesses; calls generateGuess, then passes guess to isCorrect;
     returns count'''
 
     guessing = True
     count = 0
     while guessing:
-        ck_guess = isNumber(count)
+        ck_guess = generateGuess(count)
         count = ck_guess[0]
         guess = ck_guess[1]           
         guessing = isCorrect(guess, ans)  #True or False
