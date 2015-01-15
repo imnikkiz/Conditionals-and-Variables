@@ -57,7 +57,7 @@ def main():
     while playing:
         print "%s, I'm thinking of a number between 1 and 100. Try to guess my number." % your_name
         number = random.randrange(1,101)
-        print "answer:", number # shows answer for testing
+        #print "answer:", number # shows answer for testing
  
         your_score = countGuesses(number, your_name)
         highScore = min(highScore,your_score)
