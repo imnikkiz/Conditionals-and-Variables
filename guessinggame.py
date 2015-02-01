@@ -1,70 +1,76 @@
 import random
 
-def isCorrect(num, ans):
-    '''compares guess (num) to correct answer (ans); 
-    returning True continues guessing loop'''
+def check_guess(guess, correct):
+    """ Compare guess to correct answer.
+    Return False once guess is correct. 
+    """
 
-    if num < 1 or num > 100:
-        print "Your guess is out of the range 1-100, try again."
-        return True
-    elif num > ans:
-        print "Your guess is too high, try again."
-        return True
-    elif num < ans:
-        print "Your guess is too low, try again."
-        return True
-    else:
+    if guess == correct:
         return False
+    elif guess < 1 or guess > 100:
+        print "Your guess is out of the range 1-100, try again."
+    elif guess > correct:
+        print "Your guess is too high, try again."
+    else:
+        print "Your guess is too low, try again."
+    return True
 
 
-def generateGuess(count): 
-    '''confirms guess (raw_input) is a valid number (converts to float); 
-    returns updated count and guess once a valid float''' 
+def generate_guess(): 
+    """ Check raw_input for valid guess format. 
+    Return guess and number of guesses as a tuple.
+    """ 
+    count = 0
 
     while True:
         try: 
-            guess = float(raw_input("What is your guess? ")) 
+            guess = float(raw_input("What is your guess? > ")) 
+            count += 1
             break
         except ValueError:
             print "Oops! That wasn't a number! Try again."
             count +=1
-    return count, guess     
 
+    return guess, count  # Return a tuple    
 
-def countGuesses(ans, name):
-    '''begins counting guesses; calls generateGuess, then passes guess to isCorrect;
-    returns count'''
+def play_game(player):
+    """ Choose number randomly. Track guess and number of guesses
+    until player guesses the correct number. Return number of guesses.
+    """   
+    print ("%s, I'm thinking of a number between 1 and 100. " 
+           "Try to guess my number.") % player
 
+    number = random.randrange(1,101) 
+    total_number_of_tries = 0
     guessing = True
-    count = 0
-    while guessing:
-        ck_guess = generateGuess(count)
-        count = ck_guess[0]
-        guess = ck_guess[1]           
-        guessing = isCorrect(guess, ans)  #True or False
-        count +=1
-    print "Well done, %s!  You found my number in %d tries!" % (name, count)
-    return count
 
+    while guessing:
+        guess, guess_count = generate_guess()  # Unpack the returned tuple 
+        total_number_of_tries += guess_count
+        guessing = check_guess(guess, number)  # False = guess is correct
+
+    print ("Well done, %s! You found my number "
+           "in %d tries!") % (player, total_number_of_tries)
+    return total_number_of_tries
 
 def main():
-    '''greets player; generates random number; 
-    tracks high score; continues play loop until player responds no'''
+    """ Greet player and track high score.
 
-    your_name = raw_input("Howdy what's your name?  ")
-    highScore = 1000
-    playing = True
+    Each round is instigated by play_game, and the round score is assigned to
+    game_score. The highest score is tracked in main. Player may choose
+    to continue playing. 
+    """
+    your_name = raw_input("Welcome to the guessing game! What is your name? > ")
+    high_score = 1000
+    playing = True    
+
     while playing:
-        print "%s, I'm thinking of a number between 1 and 100. Try to guess my number." % your_name
-        number = random.randrange(1,101)
-        #print "answer:", number # shows answer for testing
- 
-        your_score = countGuesses(number, your_name)
-        highScore = min(highScore,your_score)
-        print "Your score is: ",your_score
-        print "Best score is: ",highScore
+        game_score = play_game(your_name)
+        high_score = min(high_score, game_score)
+        print "Your score is: ", game_score
+        print "Best score is: ", high_score
 
-        answer = raw_input("Would you like to play again?  ")
+        answer = raw_input("Would you like to play again? > ")
         if answer[0].upper() == "N":
             playing = False 
 
